@@ -1,12 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-import "./styles.css"
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Alert from '@mui/material/Alert';
+import "./styles.css";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
 
-import { walletAddress,getBalance, getVendorBalance, getVendorAvaxBalance, buyTokens, tokenBuyListen } from "../../utils/interaction";
+import {
+  walletAddress,
+  getBalance,
+  getVendorBalance,
+  getVendorAvaxBalance,
+  buyTokens,
+  tokenBuyListen,
+} from "../../utils/interaction";
 
 const Vendor = () => {
   const [valueInserted, setValueInserted] = useState(0);
@@ -25,7 +32,7 @@ const Vendor = () => {
   }, [walletAddress, successMessage]);
 
   useEffect(() => {
-    if(successMessage) {
+    if (successMessage) {
       setTimeout(() => {
         setSuccessMessage(false);
       }, 10000);
@@ -33,7 +40,7 @@ const Vendor = () => {
   }, [successMessage]);
 
   const handleChange = (e) => {
-    if(e.target.value >= 0) {
+    if (e.target.value >= 0) {
       setValueInserted(e.target.value);
     }
   };
@@ -47,41 +54,40 @@ const Vendor = () => {
     setSuccessMessage(true);
   };
 
-  return(
-    <div className="introstyle">
-      <div>
-        REVO Tokens for 0.1 Fuji Avax
+  return (
+    <code className="introstyle">
+      <div>REVO Tokens for 0.1 Fuji Avax</div>
+      <div>Your REVO Balance: {balance}</div>
+      <div>Vendor REVO Balance: {vendorBalance}</div>
+      <div>Vendor Avax Balance: {vendorAvaxBalance}</div>
+      <TextField
+        id="outlined-number"
+        label="REVO amount"
+        type="number"
+        InputLabelProps={{
+          shrink: true,
+        }}
+        value={valueInserted}
+        onChange={(e) => handleChange(e)}
+        sx={{ margin: "auto", width: "300px" }}
+      />
+      <div style={{ margin: "auto", width: "300px" }}>
+        Cost without gas: {valueInserted / 10} Avax
       </div>
-      <div>
-        Your REVO Balance:  {balance}
-      </div>
-      <div>
-        Vendor REVO Balance: {vendorBalance}
-      </div>
-      <div>
-        Vendor Avax Balance: {vendorAvaxBalance}
-      </div>
-       <TextField
-          id="outlined-number"
-          label="REVO amount"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={valueInserted}
-          onChange={e => handleChange(e)}
-          sx={{margin:"auto", width:"300px"}}
-        />
-        <div style={{margin:"auto", width:"300px"}}>
-          Cost without gas: {valueInserted / 10} Avax
-        </div>
-      <Button onClick={() => handleClick()} sx={{margin:"auto", width:"300px"}} variant="contained">Buy</Button>
-      {
-        successMessage && <Alert severity="success">Tokens successfully bought {boughtAmount}</Alert>
-      }
-    </div>
+      <Button
+        onClick={() => handleClick()}
+        sx={{ margin: "auto", width: "300px" }}
+        variant="contained"
+      >
+        Buy
+      </Button>
+      {successMessage && (
+        <Alert severity="success">
+          Tokens successfully bought {boughtAmount}
+        </Alert>
+      )}
+    </code>
   );
 };
 
 export default Vendor;
-
